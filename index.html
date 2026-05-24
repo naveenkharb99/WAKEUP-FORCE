@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>💎 PREMIUM ALARM | Subscription • Auto-Renew • Face Wash Lock</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Poppins', sans-serif;
+      padding: 1rem;
+    }
+
+    .clock-app {
+      max-width: 750px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 3rem;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+      padding: 1.8rem 1.6rem 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e2b3c, #2c4c5e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #eef2f9;
+      padding: 0.25rem 1rem;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .premium-badge {
+      background: linear-gradient(115deg, #e6b422, #d4a017);
+      color: white;
+    }
+    .free-badge {
+      background: #2c7a6e;
+      color: white;
+    }
+
+    .live-clock-area {
+      background: #f0f4fa;
+      border-radius: 2rem;
+      padding: 0.7rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    #liveClock {
+      font-family: monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #1a3b47;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 0.6rem;
+      background: #eef2f9;
+      border-radius: 3rem;
+      padding: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.7rem 0;
+      border-radius: 2.5rem;
+      font-weight: 600;
+      color: #5a6e7c;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #2c5a6e;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .panel {
+      display: none;
+      animation: fade 0.2s ease;
+    }
+    .panel.active-panel {
+      display: block;
+    }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(5px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    .card-panel {
+      background: #ffffff;
+      border-radius: 2rem;
+      padding: 1.3rem;
+      border: 1px solid #eef2f8;
+    }
+
+    .time-row-modern {
+      background: #f9fbfd;
+      border-radius: 1.8rem;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .ampm-picker {
+      display: flex;
+      gap: 0.6rem;
+      background: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 3rem;
+      border: 1px solid #cbdde6;
+    }
+    .ampm-option {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #6c8b9c;
+    }
+    .ampm-option.active-ampm {
+      background: #2c7a6e;
+      color: white;
+    }
+    .time-number-input {
+      background: white;
+      border: 1px solid #cbdde6;
+      border-radius: 2rem;
+      padding: 0.6rem 0.8rem;
+      font-size: 1.3rem;
+      font-family: monospace;
+      font-weight: 600;
+      text-align: center;
+      width: 85px;
+    }
+
+    .feature-card {
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .free-card {
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+    }
+    .premium-card {
+      background: linear-gradient(125deg, #fff9e8, #fff3df);
+      border: 1px solid #ffdcb5;
+    }
+    .plan-selector {
+      display: flex;
+      gap: 1rem;
+      margin: 0.8rem 0;
+    }
+    .plan-btn {
+      flex: 1;
+      background: white;
+      border: 2px solid #e6b422;
+      border-radius: 1rem;
+      padding: 0.6rem;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+    }
+    .plan-btn.active-plan {
+      background: #e6b422;
+      color: white;
+      border-color: #d4a017;
+    }
+    .plan-price {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .plan-discount {
+      font-size: 0.7rem;
+      color: green;
+    }
+    .buy-btn {
+      background: #e6b422;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    .subscription-status {
+      background: #e8f0fe;
+      border-radius: 1rem;
+      padding: 0.5rem;
+      margin-top: 0.8rem;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    .cancel-sub-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      margin-top: 0.3rem;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+
+    /* Camera Section */
+    .water-verify-section {
+      margin-top: 1rem;
+      background: #eafaf1;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      text-align: center;
+      border: 2px solid #3ccf9e;
+    }
+    .camera-container {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1);
+      display: block;
+    }
+    .camera-placeholder {
+      background: #2d3748;
+      padding: 2rem;
+      text-align: center;
+      color: white;
+      border-radius: 1.2rem;
+    }
+    .capture-btn, .request-camera-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 0.5rem;
+    }
+    .step-tracker {
+      background: #f0f4fa;
+      padding: 0.5rem;
+      border-radius: 2rem;
+      margin-bottom: 0.8rem;
+    }
+    .lock-dismiss {
+      background: #cfdfe6;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      width: 100%;
+      margin-top: 0.8rem;
+      cursor: not-allowed;
+    }
+    .lock-dismiss.unlocked {
+      background: #e05a5a;
+      color: white;
+      cursor: pointer;
+    }
+    .ringing-alert {
+      background: #ffefe0;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .next-alarm {
+      background: #f8fafc;
+      border-radius: 1.2rem;
+      padding: 0.6rem;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    .simulate-step {
+      background: #f0bc6e;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    .timer-display, .stopwatch-display {
+      font-size: 2.5rem;
+      font-family: monospace;
+      text-align: center;
+      background: #f5f9ff;
+      padding: 0.7rem;
+      border-radius: 2rem;
+    }
+    .flex-btns {
+      display: flex;
+      gap: 0.7rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+    .footnote {
+      font-size: 0.65rem;
+      text-align: center;
+      margin-top: 1rem;
+      color: #8ba3ae;
+    }
+  </style>
+</head>
+<body>
+<div class="clock-app">
+  <div class="header">
+    <h1>⏰ WAKEUP FORCE</h1>
+    <div id="modeIndicator" class="mode-badge free-badge">🎯 FREE MODE: WALK TO DISMISS</div>
+  </div>
+  <div class="live-clock-area">
+    <div id="liveClock">--:--:--</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="alarm">⏰ ALARM</button>
+    <button class="tab-btn" data-tab="timer">⏱️ TIMER</button>
+    <button class="tab-btn" data-tab="stopwatch">⚡ STOPWATCH</button>
+  </div>
+
+  <!-- ALARM PANEL -->
+  <div id="alarmPanel" class="panel active-panel">
+    <div class="card-panel">
+      <div class="time-row-modern">
+        <label>⏰ SET ALARM</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <input type="number" id="alarmHour" class="time-number-input" min="1" max="12" value="7" step="1">
+          <span>:</span>
+          <input type="number" id="alarmMinute" class="time-number-input" min="0" max="59" value="30" step="1">
+          <div class="ampm-picker">
+            <button type="button" id="amBtn" class="ampm-option active-ampm">AM</button>
+            <button type="button" id="pmBtn" class="ampm-option">PM</button>
+          </div>
+        </div>
+      </div>
+      <button class="buy-btn" id="setAlarmBtn" style="background:#2c7a6e;">🔔 SET ALARM</button>
+      <div class="next-alarm">
+        📍 NEXT: <strong id="nextAlarmLabel">— not set —</strong>
+      </div>
+
+      <!-- FREE MODE -->
+      <div id="freeModeSection" class="feature-card free-card">
+        <div style="font-weight:700;">🚶 FREE MODE - WALK TO DISMISS</div>
+        <div style="font-size:13px;">Alarm stops after walking 30 steps (shake phone or simulate)</div>
+        <div class="step-tracker" style="margin-top:8px;">
+          🦶 STEPS: <span id="freeStepsCount">0</span> / 30
+          <button id="freeSimulateStep" class="simulate-step">🏃 SIMULATE STEP</button>
+        </div>
+        <button id="freeStopBtn" class="lock-dismiss" disabled>🔴 STOP ALARM (LOCKED)</button>
+      </div>
+
+      <!-- PREMIUM SUBSCRIPTION SECTION -->
+      <div id="premiumUpgradeCard" class="feature-card premium-card">
+        <div style="font-weight:700;">💎 PREMIUM: FACE WASH LOCK</div>
+        <div style="font-size:12px;">🔒 Alarm stops only after capturing face WITH WATER DROPS</div>
+        
+        <!-- Plan Selection -->
+        <div class="plan-selector">
+          <div id="monthlyPlan" class="plan-btn active-plan">
+            <div>Monthly</div>
+            <div class="plan-price">₹99</div>
+            <div>/month</div>
+          </div>
+          <div id="yearlyPlan" class="plan-btn">
+            <div>Yearly</div>
+            <div class="plan-price">₹950</div>
+            <div class="plan-discount">20% OFF</div>
+          </div>
+        </div>
+        
+        <button id="subscribeBtn" class="buy-btn">💳 SUBSCRIBE NOW (UPI)</button>
+        <div id="upiBox" style="display:none;" class="subscription-status">
+          <div>UPI ID: <strong>9518878415@kotak811</strong></div>
+          <div>Amount: <span id="payAmount">₹99</span></div>
+          <button id="confirmPaymentBtn" style="background:#2c7a6e; color:white; margin-top:8px; padding:6px; border:none; border-radius:1rem;">✅ CONFIRM PAYMENT</button>
+          <div id="paymentStatus" style="margin-top:5px;"></div>
+        </div>
+        
+        <!-- Subscription Status -->
+        <div id="subscriptionInfo" class="subscription-status" style="display:none;">
+          <div>✅ Premium Active</div>
+          <div id="expiryInfo"></div>
+          <button id="cancelAutoRenewBtn" class="cancel-sub-btn">Cancel Auto-Renew</button>
+        </div>
+      </div>
+
+      <!-- PREMIUM LOCK ZONE with Camera -->
+      <div id="premiumLockZone" style="display: none;">
+        <div class="water-verify-section">
+          <div style="font-weight:700;">💧 PREMIUM ACTIVE: FACE + WATER DROPS REQUIRED</div>
+          <div class="step-tracker">
+            🏃 STEPS: <span id="premiumStepsCount">0</span> / 30
+            <button id="premiumSimulateStep" class="simulate-step">🏃 SIMULATE</button>
+          </div>
+          
+          <div id="cameraSection">
+            <div id="cameraPlaceholder" class="camera-placeholder">
+              📷 Camera Required<br>
+              <button id="requestCameraBtn" class="request-camera-btn">🎥 ALLOW CAMERA</button>
+            </div>
+            <div id="cameraPreview" style="display:none;">
+              <div class="camera-container">
+                <video id="video" autoplay playsinline muted></video>
+              </div>
+              <button id="capturePhotoBtn" class="capture-btn">📸 CAPTURE & VERIFY WATER DROPS</button>
+            </div>
+          </div>
+          
+          <div id="verificationStatus" class="status-water"></div>
+          <button id="premiumStopBtn" class="lock-dismiss" disabled>🔴 STOP ALARM (LOCKED)</button>
+        </div>
+      </div>
+
+      <div id="ringingAlert" style="display: none;">
+        <div class="ringing-alert">
+          <div style="font-weight:800;">🔊 ALARM RINGING! 🔊</div>
+          <div id="alarmMessage"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMER & STOPWATCH -->
+  <div id="timerPanel" class="panel"><div class="card-panel"><div class="timer-display" id="timerDisplay">00:00:00</div><div class="timer-set" style="display:flex; gap:0.5rem; justify-content:center;"><input type="number" id="timerHours" placeholder="HH" value="0" style="width:70px;"><input type="number" id="timerMins" placeholder="MM" value="1" style="width:70px;"><input type="number" id="timerSecs" placeholder="SS" value="0" style="width:70px;"></div><div class="flex-btns"><button id="startTimerBtn">▶ START</button><button id="pauseTimerBtn">⏸ PAUSE</button><button id="resetTimerBtn">🔄 RESET</button></div></div></div>
+  <div id="stopwatchPanel" class="panel"><div class="card-panel"><div class="stopwatch-display" id="stopwatchDisplay">00:00:00.00</div><div class="flex-btns"><button id="swStartBtn">▶ START</button><button id="swPauseBtn">⏸ PAUSE</button><button id="swResetBtn">🔄 RESET</button><button id="swLapBtn">📋 LAP</button></div><div id="lapList"></div></div></div>
+  <div class="footnote">💡 FREE: Walk 30 steps • PREMIUM: Face + Water drops with Camera | Auto-renew subscription</div>
+</div>
+
+<script>
+  // ---------- SUBSCRIPTION & STORAGE ----------
+  let isPremium = false;
+  let subscriptionExpiry = null;      // timestamp
+  let autoRenew = true;
+  let selectedPlan = 'monthly';       // 'monthly' or 'yearly'
+  
+  // Load from localStorage
+  function loadSubscription() {
+    const saved = localStorage.getItem('premiumAlarm_subscription');
+    if(saved) {
+      try {
+        const data = JSON.parse(saved);
+        if(data.expiry && data.expiry > Date.now()) {
+          isPremium = true;
+          subscriptionExpiry = data.expiry;
+          autoRenew = data.autoRenew !== false;
+          updatePremiumUIAfterLoad();
+        } else if(data.expiry && data.expiry <= Date.now()) {
+          // expired
+          localStorage.removeItem('premiumAlarm_subscription');
+          isPremium = false;
+        }
+      } catch(e) {}
+    }
+  }
+  
+  function saveSubscription() {
+    if(isPremium && subscriptionExpiry) {
+      localStorage.setItem('premiumAlarm_subscription', JSON.stringify({
+        expiry: subscriptionExpiry,
+        autoRenew: autoRenew
+      }));
+    } else {
+      localStorage.removeItem('premiumAlarm_subscription');
+    }
+  }
+  
+  function activateSubscription(plan) {
+    const now = Date.now();
+    if(plan === 'monthly') {
+      subscriptionExpiry = now + 30 * 24 * 60 * 60 * 1000;
+    } else {
+      subscriptionExpiry = now + 365 * 24 * 60 * 60 * 1000;
+    }
+    isPremium = true;
+    autoRenew = true;
+    saveSubscription();
+    updatePremiumUIAfterLoad();
+  }
+  
+  function cancelAutoRenew() {
+    autoRenew = false;
+    saveSubscription();
+    updatePremiumUIAfterLoad();
+  }
+  
+  function checkAutoRenew() {
+    if(isPremium && subscriptionExpiry && subscriptionExpiry <= Date.now()) {
+      if(autoRenew) {
+        // auto-renew: extend by same plan duration (detect from expiry diff)
+        const originalDuration = subscriptionExpiry - (subscriptionExpiry - (selectedPlan === 'monthly' ? 30 : 365) * 24*60*60*1000);
+        if(originalDuration > 300*24*60*60*1000) {
+          subscriptionExpiry = Date.now() + 365 * 24 * 60 * 60 * 1000;
+        } else {
+          subscriptionExpiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+        }
+        saveSubscription();
+      } else {
+        isPremium = false;
+        subscriptionExpiry = null;
+        saveSubscription();
+        updatePremiumUIAfterLoad();
+      }
+    }
+  }
+  
+  function updatePremiumUIAfterLoad() {
+    const modeIndicator = document.getElementById('modeIndicator');
+    const premiumLockZone = document.getElementById('premiumLockZone');
+    const freeModeSection = document.getElementById('freeModeSection');
+    const premiumCard = document.getElementById('premiumUpgradeCard');
+    const subscriptionInfo = document.getElementById('subscriptionInfo');
+    const expiryInfo = document.getElementById('expiryInfo');
+    
+    if(isPremium && subscriptionExpiry && subscriptionExpiry > Date.now()) {
+      modeIndicator.innerHTML = '💎 PREMIUM MODE: FACE + WATER VERIFICATION';
+      modeIndicator.className = 'mode-badge premium-badge';
+      premiumLockZone.style.display = 'block';
+      freeModeSection.style.display = 'none';
+      premiumCard.style.opacity = '0.7';
+      subscriptionInfo.style.display = 'block';
+      const expiryDate = new Date(subscriptionExpiry);
+      expiryInfo.innerHTML = `Valid till: ${expiryDate.toLocaleDateString()} | Auto-renew: ${autoRenew ? 'ON' : 'OFF'}`;
+    } else {
+      isPremium = false;
+      modeIndicator.innerHTML = '🎯 FREE MODE: WALK TO DISMISS';
+      modeIndicator.className = 'mode-badge free-badge';
+      premiumLockZone.style.display = 'none';
+      freeModeSection.style.display = 'block';
+      premiumCard.style.opacity = '1';
+      subscriptionInfo.style.display = 'none';
+    }
+  }
+  
+  // Plan selection
+  document.getElementById('monthlyPlan').onclick = () => {
+    selectedPlan = 'monthly';
+    document.getElementById('monthlyPlan').classList.add('active-plan');
+    document.getElementById('yearlyPlan').classList.remove('active-plan');
+    document.getElementById('payAmount').innerText = '₹99';
+  };
+  document.getElementById('yearlyPlan').onclick = () => {
+    selectedPlan = 'yearly';
+    document.getElementById('yearlyPlan').classList.add('active-plan');
+    document.getElementById('monthlyPlan').classList.remove('active-plan');
+    document.getElementById('payAmount').innerText = '₹950';
+  };
+  
+  // Show UPI box
+  document.getElementById('subscribeBtn').onclick = () => {
+    document.getElementById('upiBox').style.display = 'block';
+  };
+  
+  // Confirm payment
+  document.getElementById('confirmPaymentBtn').onclick = () => {
+    const amount = selectedPlan === 'monthly' ? 99 : 950;
+    document.getElementById('paymentStatus').innerHTML = '✅ Payment successful! Premium activated.';
+    activateSubscription(selectedPlan);
+    document.getElementById('upiBox').style.display = 'none';
+    document.getElementById('paymentStatus').innerHTML = '';
+  };
+  
+  document.getElementById('cancelAutoRenewBtn')?.addEventListener('click', () => {
+    cancelAutoRenew();
+  });
+  
+  // ---------- ALARM & FREE MODE ----------
+  let isRinging = false;
+  let activeAlarmTime = null;
+  let freeSteps = 0;
+  let premiumSteps = 0;
+  const REQUIRED_STEPS = 30;
+  let waterVerified = false;
+  let beepInterval = null;
+  let audioCtx = null;
+  let stream = null;
+  let cameraReady = false;
+  
+  // DOM elements
+  const alarmHour = document.getElementById('alarmHour');
+  const alarmMinute = document.getElementById('alarmMinute');
+  const amBtn = document.getElementById('amBtn');
+  const pmBtn = document.getElementById('pmBtn');
+  const setAlarmBtn = document.getElementById('setAlarmBtn');
+  const nextAlarmLabel = document.getElementById('nextAlarmLabel');
+  const ringingAlert = document.getElementById('ringingAlert');
+  const alarmMessage = document.getElementById('alarmMessage');
+  const freeStepsSpan = document.getElementById('freeStepsCount');
+  const freeSimulateStep = document.getElementById('freeSimulateStep');
+  const freeStopBtn = document.getElementById('freeStopBtn');
+  const premiumStepsSpan = document.getElementById('premiumStepsCount');
+  const premiumSimulateStep = document.getElementById('premiumSimulateStep');
+  const capturePhotoBtn = document.getElementById('capturePhotoBtn');
+  const verificationStatus = document.getElementById('verificationStatus');
+  const premiumStopBtn = document.getElementById('premiumStopBtn');
+  const requestCameraBtn = document.getElementById('requestCameraBtn');
+  const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+  const cameraPreview = document.getElementById('cameraPreview');
+  const videoElem = document.getElementById('video');
+  let canvasElem = document.createElement('canvas');
+  
+  let currentAmPm = 'AM';
+  function setAmPmActive(ampm) { 
+    currentAmPm = ampm;
+    if(ampm==='AM'){ amBtn.classList.add('active-ampm'); pmBtn.classList.remove('active-ampm');}
+    else { pmBtn.classList.add('active-ampm'); amBtn.classList.remove('active-ampm');}
+  }
+  amBtn.onclick = () => setAmPmActive('AM');
+  pmBtn.onclick = () => setAmPmActive('PM');
+  
+  function get24HourFrom12(hour12, ampm) { let h = hour12 % 12; if(ampm==='PM') h+=12; return h===24?0:h; }
+  function getAlarmDate() {
+    let hour12 = parseInt(alarmHour.value)||8, minute = parseInt(alarmMinute.value)||0;
+    if(hour12<1) hour12=1; if(hour12>12) hour12=12;
+    const hour24 = get24HourFrom12(hour12, currentAmPm);
+    let d = new Date(); d.setHours(hour24, minute, 0, 0);
+    if(d <= new Date()) d.setDate(d.getDate()+1);
+    return d;
+  }
+  function formatAmPm(date) { let h=date.getHours(); let ampm=h>=12?'PM':'AM'; let h12=h%12||12; return `${h12}:${date.getMinutes().toString().padStart(2,'0')} ${ampm}`; }
+  
+  function setAlarm() {
+    activeAlarmTime = getAlarmDate();
+    nextAlarmLabel.innerText = `${formatAmPm(activeAlarmTime)} ${activeAlarmTime.toDateString()===new Date().toDateString()?'(today)':'(tomorrow)'}`;
+    if(isRinging) stopAlarm();
+    isRinging = false;
+    freeSteps = 0; premiumSteps = 0; waterVerified = false;
+    ringingAlert.style.display = 'none';
+    updateFreeUI();
+  }
+  setAlarmBtn.onclick = setAlarm;
+  
+  function addFreeStep() {
+    if(!isRinging || isPremium) return;
+    if(freeSteps < REQUIRED_STEPS) {
+      freeSteps++;
+      freeStepsSpan.innerText = freeSteps;
+      if(freeSteps >= REQUIRED_STEPS) {
+        alarmMessage.innerText = '✅ 30 steps done! Click STOP.';
+        freeStopBtn.disabled = false;
+        freeStopBtn.classList.add('unlocked');
+        freeStopBtn.innerText = "✅ STOP ALARM (UNLOCKED)";
+      } else {
+        alarmMessage.innerText = `🚶 Walk ${REQUIRED_STEPS - freeSteps} more steps...`;
+      }
+    }
+  }
+  function freeStopAlarm() { if(!isRinging || isPremium) return; if(freeSteps >= REQUIRED_STEPS) stopAlarm(); else alarmMessage.innerText = `❌ Need ${REQUIRED_STEPS - freeSteps} more steps!`; }
+  freeSimulateStep.onclick = () => { if(!isPremium && isRinging) addFreeStep(); };
+  freeStopBtn.onclick = freeStopAlarm;
+  
+  // Camera permission
+  async function requestCamera() {
+    try {
+      if(stream) stream.getTracks().forEach(t => t.stop());
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+      videoElem.srcObject = stream;
+      await videoElem.play();
+      cameraReady = true;
+      cameraPlaceholder.style.display = 'none';
+      cameraPreview.style.display = 'block';
+    } catch(err) {
+      verificationStatus.innerHTML = "❌ Camera access denied";
+      cameraReady = false;
+    }
+  }
+  requestCameraBtn.onclick = requestCamera;
+  
+  function detectWaterDrops(imageData) {
+    let data = imageData.data;
+    let brightCount = 0;
+    let total = data.length / 4;
+    for(let i=0; i<data.length; i+=4) {
+      let r = data[i], g = data[i+1], b = data[i+2];
+      let brightness = (r+g+b)/3;
+      if(brightness > 200 && (r > 190 || g > 190 || b > 200)) brightCount++;
+    }
+    return (brightCount / total) > 0.022;
+  }
+  
+  function addPremiumStep() {
+    if(!isRinging || !isPremium) return;
+    if(premiumSteps < REQUIRED_STEPS) {
+      premiumSteps++;
+      premiumStepsSpan.innerText = premiumSteps;
+      if(premiumSteps >= REQUIRED_STEPS) {
+        alarmMessage.innerText = '✅ Steps done! Now capture face with WATER DROPS.';
+        verificationStatus.innerHTML = '📸 Take a photo with wet face.';
+      } else {
+        alarmMessage.innerText = `🏃 ${REQUIRED_STEPS - premiumSteps} more steps + water photo.`;
+      }
+    }
+  }
+  premiumSimulateStep.onclick = () => { if(isPremium && isRinging) addPremiumStep(); };
+  
+  capturePhotoBtn.onclick = async () => {
+    if(!isPremium) { verificationStatus.innerHTML = "❌ Premium not active"; return; }
+    if(!isRinging) { verificationStatus.innerHTML = "No alarm ringing"; return; }
+    if(premiumSteps < REQUIRED_STEPS) { verificationStatus.innerHTML = `⚠️ Need ${REQUIRED_STEPS - premiumSteps} more steps.`; return; }
+    if(!cameraReady) { verificationStatus.innerHTML = "📷 Allow camera first."; return; }
+    
+    canvasElem.width = videoElem.videoWidth;
+    canvasElem.height = videoElem.videoHeight;
+    const ctx = canvasElem.getContext('2d');
+    ctx.drawImage(videoElem, 0, 0, canvasElem.width, canvasElem.height);
+    const imageData = ctx.getImageData(0, 0, canvasElem.width, canvasElem.height);
+    const hasWater = detectWaterDrops(imageData);
+    
+    if(hasWater) {
+      waterVerified = true;
+      verificationStatus.innerHTML = "✅ WATER DROPS DETECTED! Alarm can stop.";
+      verificationStatus.style.background = "#d4edda";
+      premiumStopBtn.disabled = false;
+      premiumStopBtn.classList.add('unlocked');
+      premiumStopBtn.innerText = "✅ STOP ALARM (UNLOCKED)";
+    } else {
+      waterVerified = false;
+      verificationStatus.innerHTML = "❌ No water drops! Wet your face & retake.";
+      verificationStatus.style.background = "#f8d7da";
+      premiumStopBtn.disabled = true;
+      premiumStopBtn.classList.remove('unlocked');
+    }
+  };
+  
+  function premiumStopAlarm() {
+    if(!isRinging || !isPremium) return;
+    if(premiumSteps >= REQUIRED_STEPS && waterVerified) stopAlarm();
+    else verificationStatus.innerHTML = "Complete steps AND capture wet face.";
+  }
+  premiumStopBtn.onclick = premiumStopAlarm;
+  
+  function updateFreeUI() {
+    freeStepsSpan.innerText = freeSteps;
+    if(isRinging && !isPremium) {
+      freeStopBtn.disabled = !(freeSteps >= REQUIRED_STEPS);
+      if(freeSteps >= REQUIRED_STEPS) freeStopBtn.classList.add('unlocked');
+      else freeStopBtn.classList.remove('unlocked');
+    }
+  }
+  
+  // Shake detection
+  function initShake() {
+    if(window.DeviceMotionEvent) {
+      const handler = (e) => {
+        if(!isRinging) return;
+        const acc = e.acceleration;
+        if(acc && (Math.abs(acc.x)>13 || Math.abs(acc.y)>13 || Math.abs(acc.z)>13)) {
+          if(isPremium) addPremiumStep();
+          else addFreeStep();
+        }
+      };
+      if(typeof DeviceMotionEvent.requestPermission === 'function') {
+        document.addEventListener('click', ()=>{
+          DeviceMotionEvent.requestPermission().then(s=>{if(s==='granted') window.addEventListener('devicemotion', handler);});
+        }, {once:true});
+      } else window.addEventListener('devicemotion', handler);
+    }
+  }
+  initShake();
+  
+  function playBeep() {
+    if(!isRinging) return;
+    try {
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = 880;
+      gain.gain.value = 0.25;
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+0.6);
+      osc.stop(audioCtx.currentTime+0.6);
+    } catch(e) {}
+  }
+  function startRinging() {
+    if(beepInterval) clearInterval(beepInterval);
+    playBeep();
+    beepInterval = setInterval(()=>{ if(isRinging) playBeep(); }, 1600);
+  }
+  function stopAlarm() {
+    if(!isRinging) return;
+    isRinging = false;
+    if(beepInterval) clearInterval(beepInterval);
+    ringingAlert.style.display = 'none';
+    activeAlarmTime = null;
+    nextAlarmLabel.innerText = '— not set —';
+    freeSteps = 0; premiumSteps = 0; waterVerified = false;
+    freeStepsSpan.innerText = "0";
+    premiumStepsSpan.innerText = "0";
+    verificationStatus.innerHTML = "";
+    freeStopBtn.disabled = true;
+    freeStopBtn.classList.remove('unlocked');
+    premiumStopBtn.disabled = true;
+    premiumStopBtn.classList.remove('unlocked');
+  }
+  function checkAlarm() {
+    if(!activeAlarmTime || isRinging) return;
+    if(new Date() >= activeAlarmTime) {
+      isRinging = true;
+      freeSteps = 0; premiumSteps = 0; waterVerified = false;
+      ringingAlert.style.display = 'block';
+      if(isPremium) {
+        alarmMessage.innerText = '💧 PREMIUM: Walk 30 steps + Capture wet face';
+        updatePremiumUIAfterLoad();
+      } else {
+        alarmMessage.innerText = '🚶 FREE: Walk 30 steps to dismiss';
+        updateFreeUI();
+      }
+      startRinging();
+      if(navigator.vibrate) navigator.vibrate([400,200,400]);
+    }
+  }
+  
+  // Timer & Stopwatch (basic)
+  let timerSec=0, timerInt=null, timerActive=false;
+  function updateTimerDisplay(){ let h=Math.floor(timerSec/3600), m=Math.floor((timerSec%3600)/60), s=timerSec%60; document.getElementById('timerDisplay').innerText=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; if(timerSec===0 && timerActive){ clearInterval(timerInt); alert("Timer done");}}
+  document.getElementById('startTimerBtn')?.addEventListener('click',()=>{ let h=parseInt(document.getElementById('timerHours').value)||0, m=parseInt(document.getElementById('timerMins').value)||0, s=parseInt(document.getElementById('timerSecs').value)||0; timerSec = h*3600+m*60+s; if(timerSec<=0) return; timerActive=true; if(timerInt) clearInterval(timerInt); timerInt=setInterval(()=>{ if(timerActive && timerSec>0){ timerSec--; updateTimerDisplay();} else if(timerSec===0){ clearInterval(timerInt); timerActive=false; alert("Timer finished!");}},1000); });
+  document.getElementById('pauseTimerBtn')?.addEventListener('click',()=>{ timerActive=false; clearInterval(timerInt);});
+  document.getElementById('resetTimerBtn')?.addEventListener('click',()=>{ timerActive=false; clearInterval(timerInt); timerSec=0; updateTimerDisplay();});
+  updateTimerDisplay();
+  
+  let swMs=0, swInt=null, swRunning=false;
+  function updateSw() { let ms=swMs; let totalSec=Math.floor(ms/1000); let hrs=Math.floor(totalSec/3600), mins=Math.floor((totalSec%3600)/60), secs=totalSec%60, cs=Math.floor((ms%1000)/10); document.getElementById('stopwatchDisplay').innerText=`${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}.${cs.toString().padStart(2,'0')}`; }
+  document.getElementById('swStartBtn')?.addEventListener('click',()=>{ if(!swRunning){ swRunning=true; if(swInt)clearInterval(swInt); swInt=setInterval(()=>{ if(swRunning){ swMs+=10; updateSw(); }},10); } });
+  document.getElementById('swPauseBtn')?.addEventListener('click',()=>{ swRunning=false; if(swInt)clearInterval(swInt); });
+  document.getElementById('swResetBtn')?.addEventListener('click',()=>{ swRunning=false; if(swInt)clearInterval(swInt); swMs=0; updateSw(); document.getElementById('lapList').innerHTML='';});
+  document.getElementById('swLapBtn')?.addEventListener('click',()=>{ let lap=document.createElement('div'); lap.style.background='#f1f5f9'; lap.style.padding='4px 8px'; lap.style.margin='4px'; lap.style.borderRadius='1rem'; lap.innerText=`⏱️ Lap: ${document.getElementById('stopwatchDisplay').innerText}`; document.getElementById('lapList').appendChild(lap); });
+  updateSw();
+  
+  setInterval(()=>{
+    document.getElementById('liveClock').innerText = new Date().toLocaleTimeString('en-GB');
+    checkAlarm();
+    checkAutoRenew();
+  }, 500);
+  
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('alarmPanel').classList.remove('active-panel');
+      document.getElementById('timerPanel').classList.remove('active-panel');
+      document.getElementById('stopwatchPanel').classList.remove('active-panel');
+      if(btn.dataset.tab==='alarm') document.getElementById('alarmPanel').classList.add('active-panel');
+      if(btn.dataset.tab==='timer') document.getElementById('timerPanel').classList.add('active-panel');
+      if(btn.dataset.tab==='stopwatch') document.getElementById('stopwatchPanel').classList.add('active-panel');
+    });
+  });
+  
+  function warmAudio(){ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }
+  document.addEventListener('click', warmAudio);
+  setAmPmActive('AM');
+  loadSubscription();
+</script>
+</body>
+</html>
